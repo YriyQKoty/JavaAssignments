@@ -1,4 +1,4 @@
-package assigment1;
+package _assigment1;
 
 import java.util.*;
 
@@ -13,16 +13,15 @@ public class Assigment1 {
         System.out.println("Task 7: " + assigment.revertNumber(357));
 
         //Завдання №12
-        int[] arr = new int[]{1, 4, 2, -1, 5, 6, 656, 213, 64};
-        arr = assigment.insertionSort(arr);
+        var arr = assigment.insertionSort(new int[]{1, 4, 2, -1, 5, 6, 656, 213, 64});
         System.out.println("Task 12: " + Arrays.toString(arr));
 
         //Завдання №28
-        System.out.println("Task 28: " + assigment.decToHex(112));
+        System.out.println("Task 28: " + assigment.decToHex(-42));
 
         //Завдання №10
-        int[][] arrays = {{1, 2, 3, 5, -6, 5, 32, 6, 2}, {53, 5, 6, 75, 2, -26, 2, 67, 431, 17}};
-        System.out.println("Task 10: " + assigment.findPrimes(arrays));
+        int[][] arrays = {new int[]{1, 2, 3, 5, -6, 5, 32, 6, 2}, new int[]{53, 5, 6, 75, 2, -26, 2, 67, 431, 17}};
+        System.out.println("Task 10: " + Arrays.toString(assigment.findPrimes(arrays)));
 
         //Завдання №27
         System.out.println("Task 27: " + assigment.decToOct(9));
@@ -31,13 +30,26 @@ public class Assigment1 {
     //Завдання №7
     //Створіть метод , який може перевернути будь яку число int . Приклад - 357 на вході, метод поверне 753
     public int revertNumber(int number) {
-        StringBuilder v = new StringBuilder(Integer.toString(number));
-        return Integer.parseInt(v.reverse().toString());
+        char sign = '+';
+        if (number < 0) {
+            sign = '-';
+            number = Math.abs(number);
+        }
+
+        StringBuilder result = new StringBuilder(Integer.toString(number));
+
+        return sign == '+' ? Integer.parseInt(result.reverse().toString()) : -Integer.parseInt(result.reverse().toString());
     }
 
     //Завдання №12
     //Створіть метод, який сортує будь який масив int[] методом вставок.
     public int[] insertionSort(int[] array) {
+
+        if (array == null) {
+
+            throw new NullPointerException();
+
+        }
 
         for (int i = 0; i < array.length; i++) {
             int current = array[i];
@@ -57,13 +69,18 @@ public class Assigment1 {
     // його з десятичної у шістнадцятирічну систему обчислення та повертає у вигляді String.
     // Приклад- приймає 11, повертає =0xb=
     public String decToHex(int number) {
+
+        if (number == 0) {
+            return "=0x0=";
+        }
+
         char sign = '0';
         if (number < 0) {
             sign = '1';
             number = Math.abs(number);
         }
         String result = "";
-        char hexSystem[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+        char[] hexSystem = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 
         while (number > 0) {
             int modulo = number % 16;
@@ -77,17 +94,32 @@ public class Assigment1 {
     //Створіть метод, який дозволяє поєднати між собою будь яку кількість масивів int[]
     // та повернути результуючий масив,
     // який буде складатися виключно з простих чисел, які були у складі масивів.
-    public Set<Integer> findPrimes(int[][] arrayOfArrays) {
-        Set<Integer> result = new HashSet<>();
+    public int[] findPrimes(int[][] arrayOfArrays) {
+
+        if (arrayOfArrays == null) {
+
+            throw new NullPointerException();
+
+        }
+
+        Set<Integer> set = new HashSet<>();
         for (var array : arrayOfArrays) {
-            for (int i = 0; i < array.length; i++) {
-                if (isPrime(array[i])) {
-                    result.add(array[i]);
+            for (int j : array) {
+                if (isPrime(j)) {
+                    set.add(j);
                 }
             }
         }
 
-        return result;
+        int[] result = new int[set.size()];
+
+        int index = 0;
+
+        for (Integer i : set) {
+            result[index++] = i;
+        }
+
+        return insertionSort(result);
     }
 
     public boolean isPrime(int num) {
@@ -115,6 +147,11 @@ public class Assigment1 {
     //Створіть метод, який приймає параметр int та конвертує його з десятичної у восьмирічну систему числення
     // та повертає у вигляді String. Приклад- приймає 9, повертає =011=
     public String decToOct(int number) {
+
+        if (number == 0) {
+            return "=0o0=";
+        }
+
         char sign = '0';
         if (number < 0) {
             sign = '1';
