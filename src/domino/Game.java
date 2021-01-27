@@ -64,7 +64,6 @@ public class Game {
     private void showTable() {
         System.out.println("\nTable:");
         for (Stone stone : table) {
-            System.out.flush();
             System.out.print("<--|" + stone.leftValue + "|" + stone.rightValue + "|-->");
         }
     }
@@ -96,8 +95,9 @@ public class Game {
 
     //pick stone and add to a player collection -> remove from market
     private void peekStone(Player player) {
-        player.stones.add(market.get(0));
-        market.remove(0);
+        var index = new Random().nextInt(market.size());
+        player.stones.add(market.get(index));
+        market.remove(index);
     }
 
     //method for adding stone into the end and returning last stone in collection

@@ -26,12 +26,12 @@ public class Player {
         }
 
         //get left and right elements
-        var stoneLeft = game.table.getFirst();
-        var stoneRight = game.table.getLast();
+        var stoneLeftSide = game.table.getFirst().leftValue;
+        var stoneRightSide = game.table.getLast().rightValue;
 
         //search suitable stones in a set
         for (Stone stone : stones) {
-            checkForSuitability(stoneLeft, stoneRight, stone);
+            hasSuitableStone = checkForSuitability(stoneLeftSide, stoneRightSide, stone);
         }
         //if not found -> peek new stone from market and check
         if (suitableStones.isEmpty()) {
@@ -45,7 +45,7 @@ public class Player {
 
                 //check if picked
                 var pickedStone = game.marketPeek(this);
-                hasSuitableStone = checkForSuitability(stoneLeft, stoneRight, pickedStone);
+                hasSuitableStone = checkForSuitability(stoneLeftSide, stoneRightSide, pickedStone);
 
             }
         } else hasSuitableStone = true;
@@ -54,11 +54,12 @@ public class Player {
 
     }
 
-    private boolean checkForSuitability(Stone left, Stone right, Stone stoneToCheck) {
+    private boolean checkForSuitability(int left, int right, Stone stoneToCheck) {
         // there is no difference if a one or lots of stones on a table
         // we only check the far left and far right elements
         // if there is only one element -> left.equals(right)
-        if (left.leftValue == stoneToCheck.rightValue || right.rightValue == stoneToCheck.leftValue) {
+        if (left == stoneToCheck.rightValue || left == stoneToCheck.leftValue
+                || right == stoneToCheck.leftValue || right == stoneToCheck.rightValue) {
             suitableStones.add(stoneToCheck);
             return true;
         } else {
@@ -108,13 +109,29 @@ public class Player {
 
         //if table has >= 1 items on a table
         //analysing player`s choice
+
+        var stone = suitableStones.get(index);
+
+
         //if his stone should be added from left
-        if (suitableStones.get(index).rightValue == game.table.getFirst().leftValue) {
-            game.table.addFirst(suitableStones.get(index));
+        if (stone.rightValue == game.table.getFirst().leftValue) {
+            game.table.addFirst(stone);
+        }
+        else if (stone.leftValue == game.table.getFirst().leftValue) {
+            var temp = stone.rightValue;
+            stone.rightValue = stone.leftValue;
+            stone.leftValue = temp;
+            game.table.addFirst(stone);
         }
         //or from right
-        else if (suitableStones.get(index).leftValue == game.table.getLast().rightValue){
-            game.table.addLast(suitableStones.get(index));
+        else if (stone.leftValue == game.table.getLast().rightValue){
+            game.table.addLast(stone);
+        }
+        else  if (stone.rightValue == game.table.getLast().rightValue) {
+            var temp = stone.rightValue;
+            stone.rightValue = stone.leftValue;
+            stone.leftValue = temp;
+            game.table.addLast(stone);
         }
 
         //remove stone from player collection
