@@ -35,9 +35,8 @@ public class Assigment1 {
             sign = '-';
             number = Math.abs(number);
         }
-
+//TODO № 7 пропоную створити ще одну реалізацію бех реверсу , робити все за допомогою =молотка та цвяхів=
         StringBuilder result = new StringBuilder(Integer.toString(number));
-
         return sign == '+' ? Integer.parseInt(result.reverse().toString()) : -Integer.parseInt(result.reverse().toString());
     }
 
@@ -47,7 +46,8 @@ public class Assigment1 {
 
         if (array == null) {
 
-            throw new NullPointerException();
+            throw new NullPointerException();//TODO ви знаєте моє відношення до такого перехвата виключень. 
+            // або використовуйте checked виключення та обробляйте їх або у методі або транслюйте далі
 
         }
 
@@ -122,7 +122,8 @@ public class Assigment1 {
         return insertionSort(result);
     }
 
-    public boolean isPrime(int num) {
+    public boolean isPrime(int num) {//TODO ця логіка має фрагментарний характер, зробіть алгоритм універсальнимм щоб він підходив для 0,1, 2, 3, 4,5...
+        // це зекономить зусилля колегам при роботі з вашим кодом
 
         if (num <= 1) {
             return false;
