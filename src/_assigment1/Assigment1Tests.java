@@ -33,9 +33,9 @@ class Assigment1Tests {
     }
 
     @Test
-    void insertionSort_ThrowsNullPointerException() {
+    void insertionSort_ThrowsIllegalArgumentException() {
 
-        assertThrows(NullPointerException.class, () -> _assigment1.insertionSort(null));
+        assertThrows(IllegalArgumentException.class, () -> _assigment1.insertionSort(null));
 
     }
 
@@ -90,6 +90,7 @@ class Assigment1Tests {
         assertTrue(_assigment1.isPrime(431));
         assertTrue(_assigment1.isPrime(67));
 
+
     }
 
     @Test
@@ -100,6 +101,7 @@ class Assigment1Tests {
         assertFalse(_assigment1.isPrime(4));
         assertFalse(_assigment1.isPrime(-1));
         assertFalse(_assigment1.isPrime(-54));
+        assertFalse(_assigment1.isPrime(8));
 
     }
 
