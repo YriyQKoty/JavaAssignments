@@ -1,62 +1,61 @@
 package Assigment2;
 
-import java.security.spec.AlgorithmParameterSpec;
-import java.util.Date;
+import Assigment2.modificators.Vehicle;
 
-interface Func<T> {
-    boolean Filter(T param);
-}
+import java.util.Date;
+import java.util.function.Function;
 
 
 public class Assigment2 {
 
     public static void main(String[] args) {
         var assigment2 = new Assigment2();
-
+//        System.out.print("\n///////////////////////////Task 49/////////////////////");
+//        assigment2.Modificators();
+        System.out.print("\n///////////////////////////Task 41/////////////////////");
+        assigment2.Exceptions();
+        System.out.print("\n///////////////////////////Task 45/////////////////////");
         assigment2.Task45();
 
-        System.out.print("\nTask31:Filter 1 result:  ");
-        assigment2.Task31(new int[]{12, 3, 5, 6}, param -> param % 2 == 0);
-        System.out.print("\nTask31: Filter 2 result: ");
-        assigment2.Task31(new int[]{12, 3, 5, 6, -1 ,4, -1, -6,7,4,1,53}, param -> param < 0);
+        System.out.print("\n//////////////////Task31:Filter 1 result:  ");
+        assigment2.FilterArray(new int[]{12, 3, 5, 6}, param -> param % 2 == 0);
+        System.out.print("\n/////////////////Task31: Filter 2 result: ");
+        assigment2.FilterArray(new int[]{12, 3, 5, 6, -1 ,4, -1, -6,7,4,1,53}, param -> param < 0);
+        System.out.print("\n/////////////////Task31: Filter 3 result: ");
+        assigment2.FilterArrayAnotherSample(new int[]{2,4,6,7,8,15,61,6,-15}, param -> param % 3 == 1);
 
-        System.out.print("\nTask34: days in month: " + assigment2.Task34(Month.January));
-        System.out.print("\nTask34: days in month: " + assigment2.Task34(Month.February));
-        System.out.print("\nTask34: days in month: " + assigment2.Task34(Month.April));
+        System.out.print("\n////////Task34: days in month: " + assigment2.GetDaysInMonth(Month.January));
+        System.out.print("\n///////////Task34: days in month: " + assigment2.GetDaysInMonth(Month.February));
+        System.out.print("\n///////////Task34: days in month: " + assigment2.GetDaysInMonth(Month.April));
     }
 
    // 31,45,34,41,49
 
 
-//
+//Task31
 //    Створіть метод який дозволяє фільтрувати елементи будь якого масиву int та виводити ці елементи на консоль.
 //    Умови фільтрації повинні передаватися в метод як параметр. Використовуйте функціональні інтерфейси та анонимні класи.
 
-    void Task31 (int[] arr, Func<Integer> predicate) {
+    void FilterArray (int[] arr, Func<Integer> predicate) {
         for (int a: arr) {
             if (predicate.Filter(a)) {
-                System.out.print(a + " ");
+                System.out.print("   " + a);
             }
         }
     }
 
-    enum Month {
-        January,
-        February,
-        March,
-        April,
-        May,
-        June,
-        July,
-        August,
-        September,
-        October,
-        November,
-        December,
+    void FilterArrayAnotherSample (int[] arr, FuncForInteger predicate) {
+        for (int a: arr) {
+            if (predicate.Filter(a)) {
+                System.out.print("   " + a);
+            }
+        }
     }
 
+
+    //Task34
     //Создайте метод, который принимает параметр- значение перечисления для месяца, а возвращает кол-во дней в месяце. Февраль всегда -28
-    int Task34(Month month) {
+    int GetDaysInMonth(Month month) {
         switch (month) {
             case January, July, August, October, December, May, March -> {
                 return 31;
@@ -73,14 +72,80 @@ public class Assigment2 {
 
         }
     }
+//Task41
+//Створіть код, у якому генеруються слідуючі типи виключень 
+// ArrayIndexOutOfBoundsException, ArithmeticException, NullPointerException, IndexOutOfBoundsException, Exception. 
+// Продемонструйте відмінність між =checked=  та  =unchecked= виключеннями.
+    void Exceptions() {
 
+        var array = new int[] {1,2,4,6,7};
 
-    void Task41() {
+        try {
+            System.out.println(array[array.length + 10]);
+        }
+        catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("\nArrayIndexOutOfBoundsException handled");
+        }
+
+        String str = null;
+
+        try {
+            str.length();
+        }
+        catch (NullPointerException e) {
+            System.out.println("NullPointerException handled");
+        }
+
+        int a = 5;
+
+        try {
+           a = a / 0;
+        }
+        catch (ArithmeticException e) {
+            System.out.println("ArithmeticException handled");
+        }
+
+        String str1 = "abcd";
+
+        try {
+            System.out.println(str1.charAt(6));
+        }
+        catch (IndexOutOfBoundsException e) {
+            System.out.println("IndexOutOfBoundsException handled");
+        }
+
+        try {
+            var b = Integer.parseInt("ffsd")/2;
+        }
+        catch (Exception e) {
+            System.out.println("Exception handled");
+        }
+
+        //checked exceptions - винятки, які контролюються системою -> SocketException <- IOException -> FileNotFoundException
+        //unchecked -> RuntimeExceptions - усі, які можуть зустрітись в Runtime, вони не перехоплюються автоматично,
+        //аби не сповільнювати систему, таким чином відповідальність за винятки перекладається на програміста
 
     }
 
-    void Task49() {
+    //Task49
+   // Створіть тестовий приклад, який демонструє відмінності при використанні різних модифікаторів доступу.
+    void Modificators() {
+        //приватний - лише в класі
+        //protected - в пакеті, класі та нащадках
+        //package (default) - в пакеті
+        //public - всюди
 
+        //Демонстрація public-private-package членів
+        var vehicle = new Vehicle();
+
+        System.out.println(vehicle.getName());
+        //vehicle.setVelocity(2); //setVelocity(int)' has protected access in 'Assigment2.modificators.Vehicle'
+       // System.out.println(vehicle.velocity);//velocity' is not public in 'Assigment2.modificators.Vehicle'. Cannot be accessed from outside package
+        //System.out.println(vehicle.name);
+
+        //демонстрація protected члена
+        var electronics = new Electronics();
+        System.out.println(electronics.category);
     }
 
 
@@ -117,112 +182,3 @@ public class Assigment2 {
 }
 
 
-class Producer {
-    String name;
-
-    @Override
-    public String toString() {
-        return "Producer{" +
-                "name='" + name + '\'' +
-                '}';
-    }
-
-}
-
-abstract class Good {
-    String name;
-    Producer producer;
-    Date productionDate;
-    float price;
-    long expireDays;
-
-    Good (String name, Producer producer, Date productionDate, float price, long expireDays) {
-        this.name = name;
-        this.producer = producer;
-        this.productionDate = productionDate;
-        this.price = price;
-        this.expireDays = expireDays;
-    }
-
-    public Date getExpireDate () { return new Date(productionDate.getTime() + expireDays * 86400 * 1000);}
-
-    public boolean checkIfExpired() {
-        return getExpireDate().getTime() -  new Date().getTime() < 0;
-    }
-}
-
-enum FoodCategory {
-    Dairy,
-    Meat,
-    Groceries,
-    None
-}
-
-enum ElectronicsCategory {
-    Schemes,
-    Resistors,
-    Transistors,
-    None,
-}
-
-
-class Food extends Good {
-
-
-   public FoodCategory category = FoodCategory.None;
-
-
-   public Food (String name, Producer producer, Date productionDate, float price, long expireDays) {
-
-       super(name, producer, productionDate, price, expireDays);
-
-
-       this.expireDays = expireDays;
-    }
-
-    public Food (String name, Producer producer, Date productionDate, float price, long expireDays, FoodCategory category)  {
-        this(name, producer,productionDate, price, expireDays);
-
-        this.category = category;
-    }
-
-    @Override
-    public String toString() {
-        return "Food{" +
-                "name='" + name + '\'' +
-                ", producer=" + producer +
-                ", productionDate=" + productionDate +
-                ", price=" + price +
-                ", expireDate=" + expireDays +
-                ", category=" + category +
-                '}';
-    }
-}
-
-
-class Electronics extends Good {
-
-    ElectronicsCategory category = ElectronicsCategory.None;
-
-    public Electronics(String name, Producer producer, Date productionDate,float price, long warrantyTerm ) {
-        super(name, producer, productionDate, price, warrantyTerm);
-    }
-
-    public Electronics(String name, Producer producer, Date productionDate, float price,long warrantyTerm, ElectronicsCategory category ) {
-        this(name, producer, productionDate, price, warrantyTerm);
-        this.category = category;
-    }
-
-
-    @Override
-    public String toString() {
-        return "Electronics{" +
-                "name='" + name + '\'' +
-                ", producer=" + producer +
-                ", productionDate=" + productionDate +
-                ", price=" + price +
-                ", warrantyTerm='" + expireDays + '\'' +
-                ", category=" + category +
-                '}';
-    }
-}

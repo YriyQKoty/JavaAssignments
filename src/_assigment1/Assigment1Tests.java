@@ -1,7 +1,15 @@
 package _assigment1;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
+
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -11,36 +19,57 @@ class Assigment1Tests {
     private static Assigment1 _assigment1;
 
     @BeforeAll
-    static void setUp () { _assigment1 = new Assigment1();}
-
-    @Test
-    void revertNumber_ReturnsRevertedNumber() {
-
-        assertEquals(123, _assigment1.revertNumber(321));
-        assertEquals(0, _assigment1.revertNumber(0));
-        assertEquals(3441, _assigment1.revertNumber(1443));
-        assertEquals(-245, _assigment1.revertNumber(-542));
-
+    static void setUp () {
+        System.out.println("Start!");
+        _assigment1 = new Assigment1();
     }
 
-    @Test
-     void insertionSort_ReturnsSortedArray() {
-
-        assertArrayEquals(new int[]{1, 2, 4}, _assigment1.insertionSort(new int[]{2, 4, 1}));
-        assertArrayEquals(new int[]{1, 1, 1, 1, 1, 1}, _assigment1.insertionSort(new int[]{1, 1, 1, 1, 1, 1}));
-        assertArrayEquals(new int[]{-2, -1, 4, 5, 6}, _assigment1.insertionSort(new int[]{4, 6, -2, 5, -1}));
-
+    @AfterEach
+    void sayHi() {
+        System.out.println("Hello!");
     }
 
-    @Test
-    void insertionSort_ThrowsIllegalArgumentException() {
-
-        assertThrows(IllegalArgumentException.class, () -> _assigment1.insertionSort(null));
-
+    @AfterAll
+    static void tearDown() {
+        System.out.println("Finish");
+        _assigment1 = null;
     }
 
-    @Test
-    void positiveDecToHex_ReturnsNonNegativeResults() {
+    @ParameterizedTest
+    @MethodSource("seedNumbersForRevertNumber")
+    void revertNumber_ReturnsRevertedNumber(int param, int expected) {
+
+        assertEquals(expected, _assigment1.revertNumber(param));
+
+    }
+    private static Stream<Arguments> seedNumbersForRevertNumber() {
+        return Stream.of(
+                Arguments.of(321,123),
+                Arguments.of(0,0),
+                Arguments.of(1443,3441),
+                Arguments.of(-321,-123)
+        );
+    }
+
+
+    @ParameterizedTest
+    @MethodSource("seedArraysForInsertionSort")
+     void insertionSort_ReturnsSortedArray(int[] param, int[] expected) {
+
+        assertArrayEquals(expected, _assigment1.insertionSort(param));
+    }
+
+    private static Stream<Arguments> seedArraysForInsertionSort() {
+        return Stream.of(
+                Arguments.of(new int[]{2, 4, 1},new int[]{1, 2, 4}),
+                Arguments.of(new int[]{1, 1, 1, 1, 1, 1},new int[]{1, 1, 1, 1, 1, 1}),
+                Arguments.of(new int[]{4, 6, -2, 5, -1},new int[]{-2, -1, 4, 5, 6})
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("seedDecToHexParams")
+    void positiveDecToHex_ReturnsNonNegativeResults(int param, String expected) {
 
         assertEquals("=0xB=", _assigment1.decToHex(11));
         assertEquals("=0xF=", _assigment1.decToHex(15));
@@ -48,6 +77,16 @@ class Assigment1Tests {
         assertEquals("=0x100=", _assigment1.decToHex(256));
         assertEquals("=0x0=", _assigment1.decToHex(0));
 
+    }
+
+    private static Stream<Arguments> seedDecToHexParams() {
+        return Stream.of(
+                Arguments.of(11,"=0xB="),
+                Arguments.of(15,"=0xF="),
+                Arguments.of(16,"=0x10="),
+                Arguments.of(256,"=0x100="),
+                Arguments.of(0,"=0x0=")
+        );
     }
 
     @Test
@@ -73,36 +112,19 @@ class Assigment1Tests {
         assertArrayEquals(new int[]{}, _assigment1.findPrimes(new int[][]{new int[]{0, 6, 8, 10, 12}, new int[]{-1, -5, 4, 8, -10405}}));
     }
 
-    @Test
-    void findPrimes_ThrowsException() {
 
-        assertThrows(NullPointerException.class, () -> _assigment1.findPrimes(null));
+    @ParameterizedTest
+    @ValueSource(ints = {2,3,11,431,67})
+    void checkIsPrime_True(int param) {
 
+        assertTrue(_assigment1.isPrime(param));
     }
 
+    @ParameterizedTest
+    @ValueSource(ints = {1,0,4,-1,-54,8})
+    void checkIsPrime_False(int param) {
 
-    @Test
-    void checkIsPrime_True() {
-
-        assertTrue(_assigment1.isPrime(2));
-        assertTrue(_assigment1.isPrime(3));
-        assertTrue(_assigment1.isPrime(11));
-        assertTrue(_assigment1.isPrime(431));
-        assertTrue(_assigment1.isPrime(67));
-
-
-    }
-
-    @Test
-    void checkIsPrime_False() {
-
-        assertFalse(_assigment1.isPrime(1));
-        assertFalse(_assigment1.isPrime(0));
-        assertFalse(_assigment1.isPrime(4));
-        assertFalse(_assigment1.isPrime(-1));
-        assertFalse(_assigment1.isPrime(-54));
-        assertFalse(_assigment1.isPrime(8));
-
+        assertFalse(_assigment1.isPrime(param));
     }
 
 
