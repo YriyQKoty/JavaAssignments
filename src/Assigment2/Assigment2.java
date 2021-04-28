@@ -18,7 +18,12 @@ public class Assigment2 {
         assigment2.Task45();
 
         System.out.print("\n//////////////////Task31:Filter 1 result:  ");
-        assigment2.FilterArray(new int[]{12, 3, 5, 6}, param -> param % 2 == 0);
+        assigment2.FilterArray(new int[]{12, 3, 5, 6}, new Func<Integer>() {
+            @Override
+            public boolean Filter(Integer param) {
+                return param % 2 == 0;
+            }
+        });
         System.out.print("\n/////////////////Task31: Filter 2 result: ");
         assigment2.FilterArray(new int[]{12, 3, 5, 6, -1 ,4, -1, -6,7,4,1,53}, param -> param < 0);
         System.out.print("\n/////////////////Task31: Filter 3 result: ");
@@ -139,9 +144,12 @@ public class Assigment2 {
         var vehicle = new Vehicle();
 
         System.out.println(vehicle.getName());
-        //vehicle.setVelocity(2); //setVelocity(int)' has protected access in 'Assigment2.modificators.Vehicle'
-       // System.out.println(vehicle.velocity);//velocity' is not public in 'Assigment2.modificators.Vehicle'. Cannot be accessed from outside package
-        //System.out.println(vehicle.name);
+//        vehicle.setVelocity(2); //setVelocity(int)' has protected access in 'Assigment2.modificators.Vehicle'
+//        System.out.println(vehicle.velocity);//velocity' is not public in 'Assigment2.modificators.Vehicle'. Cannot be accessed from outside package
+//        System.out.println(vehicle.name);
+
+        var food2 = new Food2();
+        food2.Default();
 
         //демонстрація protected члена
         var electronics = new Electronics();
@@ -180,5 +188,9 @@ public class Assigment2 {
         System.out.println(product3);
     }
 }
+
+
+
+
 
 

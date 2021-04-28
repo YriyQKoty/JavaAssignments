@@ -1,12 +1,17 @@
 package domino;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 public class Domino {
 
     public static void main(String[] args) {
+
+        Domino d = new Domino();
+
+
         Player player1 = new Player("Dan");
         Player player2 = new Player("Jane");
 //        Player player3 = new Player("John");
@@ -26,4 +31,6 @@ public class Domino {
             domino.getWinner();
         }
     }
+
+
 }

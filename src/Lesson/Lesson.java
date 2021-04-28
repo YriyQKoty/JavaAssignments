@@ -8,7 +8,7 @@ import java.util.*;
 public class Lesson {
 
     public static void main(String[] args) {
-        var array = sortAndRemoveDuplicates(new Integer[]{-1,55,56,57,9,11,1,4,5,3,2,6,4,23,235,77,246,-5,-2,0,54,35,38,49,50,12,-12,554,-11,-10});
+        var array = sortAndRemoveDuplicates(new Integer[]{-1,55,56,57,9,11,1,4,5,3,2,6,4,23,235,77,246,-5,-2,0,54,35,38,59,60,61,62,49,50,12,-12,554,-11,-10});
 
         var mapped = getAllChains(array);
         //виводимо усі послідовності

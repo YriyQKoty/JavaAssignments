@@ -12,7 +12,6 @@ class Food extends Good {
 
         super(name, producer, productionDate, price, expireDays);
 
-
         this.expireDays = expireDays;
     }
 
@@ -33,4 +32,12 @@ class Food extends Good {
                 ", category=" + category +
                 '}';
     }
+
+    protected void Default() {
+        System.out.println("Test");
+    }
+
+    Food() {
+
+    };
 }
